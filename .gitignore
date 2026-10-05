@@ -1,0 +1,11 @@
+# Never commit real bank / card statements
+*.pdf
+*.xlsx
+*.xls
+*.csv
+!fixtures/**
+
+.env*
+node_modules/
+.next/
+.DS_Store
