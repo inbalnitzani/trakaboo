@@ -51,5 +51,21 @@
     "cal": "Cal",
     "max": "Max",
     "manual": "Manual"
+  },
+  "auth": {
+    "email": "Email",
+    "sendCode": "Send sign-in code",
+    "sending": "Sending…",
+    "codeSent": "We sent a 6-digit code to {email}",
+    "code": "Sign-in code",
+    "signIn": "Sign in",
+    "verifying": "Checking…",
+    "signOut": "Sign out",
+    "errors": {
+      "invalidEmail": "That email address doesn't look right",
+      "sendFailed": "Couldn't send the code. Try again in a minute",
+      "invalidCode": "The code should be 6 digits",
+      "wrongCode": "Wrong or expired code"
+    }
   }
 }

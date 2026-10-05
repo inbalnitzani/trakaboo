@@ -6,6 +6,7 @@
 !fixtures/**
 
 .env*
+!.env.example
 node_modules/
 .next/
 .DS_Store
