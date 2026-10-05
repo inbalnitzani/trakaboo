@@ -42,6 +42,10 @@
   --color-tint-rose: var(--tint-rose);
   --color-tint-aqua: var(--tint-aqua);
   --color-tint-gray: var(--tint-gray);
+  /* Readable text on a tint (badges) */
+  --color-on-tint-sky: var(--on-tint-sky);
+  --color-on-tint-rose: var(--on-tint-rose);
+  --color-on-tint-butter: var(--on-tint-butter);
 
   /* Chart series — validated categorical order (adjacent CVD ΔE ≥ 11). Keep this order. */
   --color-series-1: var(--series-1);
@@ -105,6 +109,9 @@
   --tint-rose: #ffe3e0;
   --tint-aqua: #d8f4f6;
   --tint-gray: #efebf2;
+  --on-tint-sky: #1e5e96;
+  --on-tint-rose: #a23a3a;
+  --on-tint-butter: #7a6210;
 
   --series-1: #d9488f;
   --series-2: #2f8fd8;

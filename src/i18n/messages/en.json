@@ -11,7 +11,8 @@
   },
   "common": {
     "language": "Language",
-    "comingSoon": "Coming soon ✨"
+    "comingSoon": "Coming soon ✨",
+    "demoMode": "Sample data — connect a database to see your own spending"
   },
   "categories": {
     "food": "Food",
@@ -25,5 +26,30 @@
     "subscriptions": "Subscriptions",
     "transfers": "Transfers",
     "other": "Other"
+  },
+  "overview": {
+    "spentThisMonth": "Spent this month",
+    "vsLastMonth": "{direction, select, up {▲ {percent}% more} down {▼ {percent}% less} other {Same}} than last month",
+    "byCategory": "By category",
+    "categoriesCount": "{count, plural, one {# category} other {# categories}}",
+    "daily": "Daily spending",
+    "avgPerDay": "avg {amount} / day",
+    "dailyTooltip": "{count, plural, one {# purchase} other {# purchases}}",
+    "comparison": "vs. last month",
+    "thisMonth": "This month",
+    "lastMonth": "Last month",
+    "changeNew": "new",
+    "recent": "Recent transactions",
+    "seeAll": "See all",
+    "emptyTitle": "No spending yet this month",
+    "emptyDescription": "Add an expense or import a statement to get started",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
+  "sources": {
+    "apple_pay": "Apple Pay",
+    "cal": "Cal",
+    "max": "Max",
+    "manual": "Manual"
   }
 }

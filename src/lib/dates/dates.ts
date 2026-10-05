@@ -23,6 +23,11 @@ export function isIsoDate(value: string): value is IsoDate {
   return m >= 1 && m <= 12 && d >= 1 && d <= daysInMonth(`${y}-${pad(m)}` as MonthKey);
 }
 
+export function isMonthKey(value: string): value is MonthKey {
+  const match = /^(\d{4})-(\d{2})$/.exec(value);
+  return !!match && Number(match[2]) >= 1 && Number(match[2]) <= 12;
+}
+
 /** "2026-09-14" → "2026-09" */
 export function toMonthKey(date: IsoDate): MonthKey {
   return date.slice(0, 7) as MonthKey;

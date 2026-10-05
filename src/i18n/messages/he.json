@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "Trakaboo",
-    "tagline": "תציצי לאן הכסף הלך"
+    "tagline": "הצצה לאן הכסף הלך"
   },
   "nav": {
     "overview": "סקירה",
@@ -11,7 +11,8 @@
   },
   "common": {
     "language": "שפה",
-    "comingSoon": "בקרוב ✨"
+    "comingSoon": "בקרוב ✨",
+    "demoMode": "נתונים לדוגמה — אחרי חיבור מסד הנתונים יופיעו כאן ההוצאות האמיתיות"
   },
   "categories": {
     "food": "אוכל",
@@ -25,5 +26,30 @@
     "subscriptions": "מנויים",
     "transfers": "העברות",
     "other": "אחר"
+  },
+  "overview": {
+    "spentThisMonth": "הוצאת החודש",
+    "vsLastMonth": "{direction, select, up {▲ {percent}% יותר} down {▼ {percent}% פחות} other {בדיוק כמו}} מהחודש שעבר",
+    "byCategory": "לפי קטגוריה",
+    "categoriesCount": "{count, plural, one {קטגוריה אחת} other {# קטגוריות}}",
+    "daily": "הוצאות יומיות",
+    "avgPerDay": "ממוצע {amount} ליום",
+    "dailyTooltip": "{count, plural, one {עסקה אחת} other {# עסקאות}}",
+    "comparison": "מול החודש הקודם",
+    "thisMonth": "החודש",
+    "lastMonth": "חודש קודם",
+    "changeNew": "חדש",
+    "recent": "עסקאות אחרונות",
+    "seeAll": "לכל העסקאות",
+    "emptyTitle": "אין עדיין הוצאות החודש",
+    "emptyDescription": "אפשר להוסיף הוצאה או לייבא דוח כדי להתחיל",
+    "previousMonth": "החודש הקודם",
+    "nextMonth": "החודש הבא"
+  },
+  "sources": {
+    "apple_pay": "Apple Pay",
+    "cal": "Cal",
+    "max": "Max",
+    "manual": "ידני"
   }
 }

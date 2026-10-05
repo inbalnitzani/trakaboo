@@ -25,6 +25,8 @@ export type MonthSummary = {
   byCategory: CategoryTotal[];
   /** Spend per day, index 0 = day 1. */
   daily: number[];
+  /** Number of purchases per day, index 0 = day 1. */
+  dailyCounts: number[];
   comparison: CategoryComparison[];
   count: number;
 };
@@ -66,6 +68,16 @@ export function dailyTotals(items: readonly Spend[], month: MonthKey): number[] 
   return days.map(round2);
 }
 
+/** Number of purchases per day of `month`. */
+export function dailyCounts(
+  items: readonly Pick<Transaction, "date">[],
+  month: MonthKey,
+): number[] {
+  const days = Array<number>(daysInMonth(month)).fill(0);
+  for (const t of inMonth(items, month)) days[dayOfMonth(t.date) - 1] += 1;
+  return days;
+}
+
 /** Per-category current vs. previous, ordered by current spend (largest first). */
 export function compareByCategory(
   current: readonly CategoryTotal[],
@@ -98,6 +110,7 @@ export function summarizeMonth(items: readonly Spend[], month: MonthKey): MonthS
     changePct: percentChange(total, previousTotal),
     byCategory,
     daily: dailyTotals(current, month),
+    dailyCounts: dailyCounts(current, month),
     comparison: compareByCategory(byCategory, totalsByCategory(previous)),
     count: current.length,
   };

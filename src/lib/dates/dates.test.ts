@@ -7,6 +7,7 @@ import {
   formatMonth,
   isInMonth,
   isIsoDate,
+  isMonthKey,
   monthRange,
   parseDayMonthYear,
   shiftMonth,
@@ -44,6 +45,15 @@ describe("isIsoDate", () => {
   it.each(["2026-02-30", "2026-13-01", "14/09/2026", "2026-9-1"])("rejects %s", (v) =>
     expect(isIsoDate(v)).toBe(false),
   );
+});
+
+describe("isMonthKey", () => {
+  it("validates YYYY-MM", () => {
+    expect(isMonthKey("2026-09")).toBe(true);
+    expect(isMonthKey("2026-13")).toBe(false);
+    expect(isMonthKey("2026-9")).toBe(false);
+    expect(isMonthKey("2026-09-01")).toBe(false);
+  });
 });
 
 describe("parseDayMonthYear", () => {
