@@ -12,5 +12,18 @@
   "common": {
     "language": "שפה",
     "comingSoon": "בקרוב ✨"
+  },
+  "categories": {
+    "food": "אוכל",
+    "groceries": "סופר",
+    "transport": "תחבורה",
+    "shopping": "קניות",
+    "fun": "בילויים",
+    "bills": "חשבונות",
+    "health": "בריאות",
+    "travel": "טיולים",
+    "subscriptions": "מנויים",
+    "transfers": "העברות",
+    "other": "אחר"
   }
 }
