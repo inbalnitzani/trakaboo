@@ -1,80 +1,94 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Notice } from "@/components/ui/notice";
 
-import { type LoginState, sendLoginCode, verifyLoginCode } from "./actions";
-import { OTP_LENGTH } from "./validation";
+import { type AuthMode, type AuthState, signIn, signUp } from "./actions";
+import { PASSWORD_MAX, PASSWORD_MIN } from "./validation";
 
-const INITIAL: LoginState = { step: "email" };
+type LoginFormProps = {
+  /** Shown after the user followed the confirmation link from their email. */
+  justConfirmed?: boolean;
+};
 
-/** Two-step passwordless sign-in: email → 6-digit code. Works inside an installed PWA. */
-export function LoginForm() {
+const fieldClass = "h-12 rounded-2xl bg-card text-base";
+
+/** Email + password sign-in, with a one-time "create account" mode. */
+export function LoginForm({ justConfirmed }: LoginFormProps) {
   const t = useTranslations("auth");
-  const [sendState, send, sending] = useActionState(sendLoginCode, INITIAL);
-  const [verifyState, verify, verifying] = useActionState(verifyLoginCode, INITIAL);
+  const [mode, setMode] = useState<AuthMode>("signIn");
 
-  const state = verifyState.step === "code" ? verifyState : sendState;
+  const [state, submit, pending] = useActionState(
+    async (prev: AuthState, form: FormData) => {
+      const next = await (mode === "signIn" ? signIn : signUp)(prev, form);
+      setMode(next.mode);
+      return next;
+    },
+    { mode: "signIn" } satisfies AuthState,
+  );
 
-  if (state.step === "email") {
-    return (
-      <form action={send} className="grid gap-3">
-        <Label htmlFor="email">{t("email")}</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          dir="ltr"
-          required
-          className="h-12 rounded-2xl bg-card text-base"
-          aria-invalid={!!state.error}
-          aria-describedby={state.error ? "email-error" : undefined}
-        />
-        {state.error && (
-          <p id="email-error" role="alert" className="text-sm text-destructive">
-            {t(`errors.${state.error}`)}
-          </p>
-        )}
-        <Button type="submit" size="lg" className="h-12 rounded-2xl" disabled={sending}>
-          {sending ? t("sending") : t("sendCode")}
-        </Button>
-      </form>
-    );
-  }
+  const isSignUp = mode === "signUp";
+  const error = state.mode === mode ? state.error : undefined;
 
   return (
-    <form action={verify} className="grid gap-3">
-      <p className="text-sm text-muted-foreground">{t("codeSent", { email: state.email })}</p>
-      <input type="hidden" name="email" value={state.email} />
-      <Label htmlFor="code">{t("code")}</Label>
+    <form action={submit} className="grid gap-3">
+      {justConfirmed && !state.notice && <Notice icon="✅">{t("notices.confirmed")}</Notice>}
+      {state.notice && <Notice icon="📬">{t(`notices.${state.notice}`)}</Notice>}
+
+      <Label htmlFor="email">{t("email")}</Label>
       <Input
-        id="code"
-        name="code"
-        inputMode="numeric"
-        autoComplete="one-time-code"
-        pattern="[0-9 \-]*"
-        maxLength={OTP_LENGTH + 2}
+        id="email"
+        name="email"
+        type="email"
+        inputMode="email"
+        autoComplete={isSignUp ? "email" : "username"}
+        defaultValue={state.email}
         dir="ltr"
         required
-        autoFocus
-        className="h-14 rounded-2xl bg-card text-center text-2xl tracking-[0.5em]"
-        aria-invalid={!!state.error}
-        aria-describedby={state.error ? "code-error" : undefined}
+        className={fieldClass}
       />
-      {state.error && (
-        <p id="code-error" role="alert" className="text-sm text-destructive">
-          {t(`errors.${state.error}`)}
+
+      <Label htmlFor="password">{t("password")}</Label>
+      <Input
+        id="password"
+        name="password"
+        type="password"
+        autoComplete={isSignUp ? "new-password" : "current-password"}
+        minLength={isSignUp ? PASSWORD_MIN : undefined}
+        maxLength={PASSWORD_MAX}
+        dir="ltr"
+        required
+        className={fieldClass}
+        aria-describedby={isSignUp ? "password-hint" : undefined}
+      />
+      {isSignUp && (
+        <p id="password-hint" className="-mt-1 text-xs text-muted-foreground">
+          {t("passwordHint", { min: PASSWORD_MIN })}
         </p>
       )}
-      <Button type="submit" size="lg" className="h-12 rounded-2xl" disabled={verifying}>
-        {verifying ? t("verifying") : t("signIn")}
+
+      {error && (
+        <p role="alert" className="text-sm text-destructive">
+          {t(`errors.${error}`)}
+        </p>
+      )}
+
+      <Button type="submit" size="lg" className="mt-1 h-12 rounded-2xl" disabled={pending}>
+        {pending ? t("working") : isSignUp ? t("createAccount") : t("signIn")}
       </Button>
+
+      <button
+        type="button"
+        onClick={() => setMode(isSignUp ? "signIn" : "signUp")}
+        className="text-sm font-medium text-accent"
+      >
+        {isSignUp ? t("haveAccount") : t("noAccount")}
+      </button>
     </form>
   );
 }

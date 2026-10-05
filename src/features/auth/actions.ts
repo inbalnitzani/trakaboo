@@ -1,44 +1,63 @@
 "use server";
 
+import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 
 import { redirect } from "@/i18n/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-import { normalizeEmail, normalizeOtp } from "./validation";
+import { normalizeEmail, validatePassword } from "./validation";
 
-export type LoginState =
-  | { step: "email"; error?: "invalidEmail" | "sendFailed" }
-  | { step: "code"; email: string; error?: "invalidCode" | "wrongCode" };
+export type AuthMode = "signIn" | "signUp";
 
-/** Step 1: email a 6-digit sign-in code. */
-export async function sendLoginCode(_prev: LoginState, form: FormData): Promise<LoginState> {
-  const email = normalizeEmail(form.get("email"));
-  if (!email) return { step: "email", error: "invalidEmail" };
+export type AuthState = {
+  mode: AuthMode;
+  email?: string;
+  error?: "invalidEmail" | "invalidPassword" | "wrongCredentials" | "notConfirmed" | "signUpFailed";
+  notice?: "checkEmail";
+};
 
-  const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithOtp({ email });
-  if (error) {
-    console.error("signInWithOtp failed", error.message);
-    return { step: "email", error: "sendFailed" };
-  }
-  return { step: "code", email };
+function readCredentials(form: FormData) {
+  return {
+    email: normalizeEmail(form.get("email")),
+    password: validatePassword(form.get("password")),
+  };
 }
 
-/** Step 2: verify the code, then go to the overview. */
-export async function verifyLoginCode(_prev: LoginState, form: FormData): Promise<LoginState> {
-  const email = normalizeEmail(form.get("email"));
-  if (!email) return { step: "email", error: "invalidEmail" };
-
-  const token = normalizeOtp(form.get("code"));
-  if (!token) return { step: "code", email, error: "invalidCode" };
+export async function signIn(_prev: AuthState, form: FormData): Promise<AuthState> {
+  const { email, password } = readCredentials(form);
+  if (!email) return { mode: "signIn", error: "invalidEmail" };
+  if (!password) return { mode: "signIn", email, error: "wrongCredentials" };
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
-  if (error) return { step: "code", email, error: "wrongCode" };
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    const notConfirmed = error.code === "email_not_confirmed";
+    return { mode: "signIn", email, error: notConfirmed ? "notConfirmed" : "wrongCredentials" };
+  }
 
   redirect({ href: "/", locale: await getLocale() });
-  return { step: "code", email }; // unreachable: redirect throws
+  return { mode: "signIn" }; // unreachable: redirect throws
+}
+
+export async function signUp(_prev: AuthState, form: FormData): Promise<AuthState> {
+  const { email, password } = readCredentials(form);
+  if (!email) return { mode: "signUp", error: "invalidEmail" };
+  if (!password) return { mode: "signUp", email, error: "invalidPassword" };
+
+  const origin = (await headers()).get("origin") ?? "http://localhost:3000";
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { emailRedirectTo: `${origin}/api/auth/callback` },
+  });
+  if (error) {
+    console.error("signUp failed", error.code);
+    return { mode: "signUp", email, error: "signUpFailed" };
+  }
+  // Same response whether or not the address already has an account (no account enumeration).
+  return { mode: "signIn", email, notice: "checkEmail" };
 }
 
 export async function signOut() {

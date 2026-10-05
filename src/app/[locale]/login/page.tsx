@@ -5,8 +5,9 @@ import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { LoginForm } from "@/features/auth/login-form";
 import { initLocale } from "@/i18n/server";
 
-export default function LoginPage({ params }: PageProps<"/[locale]/login">) {
+export default function LoginPage({ params, searchParams }: PageProps<"/[locale]/login">) {
   initLocale(use(params).locale);
+  const justConfirmed = use(searchParams).confirmed === "1";
   const t = useTranslations();
 
   return (
@@ -24,7 +25,7 @@ export default function LoginPage({ params }: PageProps<"/[locale]/login">) {
           </h1>
           <p className="mt-1 text-muted-foreground">{t("app.tagline")}</p>
         </header>
-        <LoginForm />
+        <LoginForm justConfirmed={justConfirmed} />
       </div>
     </main>
   );

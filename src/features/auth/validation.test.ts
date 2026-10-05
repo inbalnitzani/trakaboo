@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeEmail, normalizeOtp } from "./validation";
+import { normalizeEmail, validatePassword } from "./validation";
 
 describe("normalizeEmail", () => {
   it("trims and lowercases valid addresses", () => {
@@ -12,14 +12,19 @@ describe("normalizeEmail", () => {
   });
 });
 
-describe("normalizeOtp", () => {
-  it("accepts 6 digits, ignoring spaces and dashes", () => {
-    expect(normalizeOtp("123456")).toBe("123456");
-    expect(normalizeOtp(" 123 456 ")).toBe("123456");
-    expect(normalizeOtp("123-456")).toBe("123456");
+describe("validatePassword", () => {
+  it("accepts 8–72 bytes and keeps the value exactly (no trimming)", () => {
+    expect(validatePassword("12345678")).toBe("12345678");
+    expect(validatePassword(" spaced pass ")).toBe(" spaced pass ");
+    expect(validatePassword("a".repeat(72))).toHaveLength(72);
   });
 
-  it.each(["12345", "1234567", "abcdef", "", undefined])("rejects %j", (input) => {
-    expect(normalizeOtp(input)).toBeNull();
+  it("counts bytes, not characters", () => {
+    // 37 Hebrew letters = 74 bytes in UTF-8 → too long for bcrypt.
+    expect(validatePassword("א".repeat(37))).toBeNull();
+  });
+
+  it.each(["1234567", "a".repeat(73), "", undefined, 12345678])("rejects %j", (input) => {
+    expect(validatePassword(input)).toBeNull();
   });
 });
