@@ -4,7 +4,6 @@ import { Rubik } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
-import { AppShell } from "@/components/layout/app-shell";
 import { Toaster } from "@/components/ui/sonner";
 import { getDirection } from "@/i18n/locales";
 import { routing } from "@/i18n/routing";
@@ -43,7 +42,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
       <body>
         <NextIntlClientProvider>
           <DirectionProvider direction={dir}>
-            <AppShell>{children}</AppShell>
+            {children}
             <Toaster position="top-center" />
           </DirectionProvider>
         </NextIntlClientProvider>

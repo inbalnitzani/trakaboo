@@ -26,7 +26,8 @@ export default async function OverviewPage({ params, searchParams }: PageProps<"
       : currentMonth;
 
   // One query covers this month and the previous one (for the comparison).
-  const transactions = await getTransactionsRepository().listBetween({
+  const repository = await getTransactionsRepository();
+  const transactions = await repository.listBetween({
     from: monthRange(shiftMonth(month, -1)).from,
     to: monthRange(month).to,
   });
