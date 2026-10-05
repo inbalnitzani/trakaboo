@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   compareByCategory,
+  dailyCounts,
   dailyTotals,
   percentChange,
   summarizeMonth,
@@ -53,6 +54,15 @@ describe("totals", () => {
     expect(daily[13]).toBe(60);
     expect(daily[29]).toBe(5.34);
     expect(daily[1]).toBe(0);
+  });
+});
+
+describe("dailyCounts", () => {
+  it("counts purchases per day of the month", () => {
+    const counts = dailyCounts(spend, "2026-09");
+    expect(counts[0]).toBe(2);
+    expect(counts[13]).toBe(1);
+    expect(counts.reduce((a, b) => a + b, 0)).toBe(4);
   });
 });
 

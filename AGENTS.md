@@ -35,6 +35,7 @@ e2e/                   Playwright specs for key user flows
 ## Rules
 
 - **Generic first.** Build reusable, prop-driven components and pure functions; feature code composes them. If something varies, make it data/config (e.g. `NAV_ITEMS`, `LOCALES`), not branches.
+- **Gender-neutral Hebrew.** Don't address the user with gendered imperatives (לחצי/לחץ); use infinitive or plural forms (לחיצה, אפשר להוסיף, בוחרים).
 - **No hard-coded UI text.** Every string goes through `useTranslations` / `getTranslations`; add keys to both `he.json` and `en.json` (types come from `en.json`).
 - **No hard-coded colors.** Use the tokens in `src/app/globals.css` (`bg-card`, `text-muted-foreground`, `bg-tint-pink`, `fill-series-1`…). Chart series must keep the validated order.
 - **RTL-safe styling.** Use logical utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`, `text-start`) — never `ml/mr/pl/pr/left/right` for layout.
