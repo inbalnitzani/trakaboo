@@ -20,14 +20,18 @@ test("login page has email + password and validates the email", async ({ page })
   );
 });
 
+test("forgot-password mode asks only for the email", async ({ page }) => {
+  await page.goto("/en/login");
+  await page.getByRole("button", { name: "Forgot password?" }).click();
+  await expect(page.getByLabel("Password")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Send reset link" })).toBeVisible();
+});
+
 test("can switch to create-account mode and back", async ({ page }) => {
   await page.goto("/en/login");
   await page.getByRole("button", { name: /Create one/ }).click();
   await expect(page.getByRole("button", { name: "Create account" })).toBeVisible();
   await expect(page.getByText(/At least 8 characters/)).toBeVisible();
-  await page
-    .getByRole("button", { name: /Sign in$/ })
-    .first()
-    .click();
+  await page.getByRole("button", { name: "Back to sign in" }).click();
   await expect(page.getByRole("button", { name: "Sign in", exact: true })).toBeVisible();
 });
