@@ -12,5 +12,18 @@
   "common": {
     "language": "Language",
     "comingSoon": "Coming soon ✨"
+  },
+  "categories": {
+    "food": "Food",
+    "groceries": "Groceries",
+    "transport": "Transport",
+    "shopping": "Shopping",
+    "fun": "Fun",
+    "bills": "Bills",
+    "health": "Health",
+    "travel": "Travel",
+    "subscriptions": "Subscriptions",
+    "transfers": "Transfers",
+    "other": "Other"
   }
 }
