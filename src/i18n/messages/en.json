@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Trakaboo",
+    "tagline": "Peek at where your money went"
+  },
+  "nav": {
+    "overview": "Overview",
+    "transactions": "Transactions",
+    "import": "Import",
+    "settings": "Settings"
+  },
+  "common": {
+    "language": "Language",
+    "comingSoon": "Coming soon ✨"
+  }
+}

@@ -1,26 +1,136 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design tokens — the single source of truth for colors, radius and fonts.
+ * Components use Tailwind classes that map to these (e.g. bg-card, text-muted-foreground,
+ * bg-tint-pink, fill-series-1). Never hard-code colors in components.
+ * Light theme only (see DESIGN.md).
+ */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Pastel tints — decorative backgrounds only (category cards, icons) */
+  --color-tint-pink: var(--tint-pink);
+  --color-tint-sky: var(--tint-sky);
+  --color-tint-peach: var(--tint-peach);
+  --color-tint-lilac: var(--tint-lilac);
+  --color-tint-mint: var(--tint-mint);
+  --color-tint-butter: var(--tint-butter);
+  --color-tint-rose: var(--tint-rose);
+  --color-tint-aqua: var(--tint-aqua);
+  --color-tint-gray: var(--tint-gray);
+
+  /* Chart series — validated categorical order (adjacent CVD ΔE ≥ 11). Keep this order. */
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+  --color-series-4: var(--series-4);
+  --color-series-5: var(--series-5);
+  --color-series-6: var(--series-6);
+  --color-series-other: var(--series-other);
+  --color-series-prev: var(--series-prev);
+  --color-chart-1: var(--series-1);
+  --color-chart-2: var(--series-2);
+  --color-chart-3: var(--series-3);
+  --color-chart-4: var(--series-4);
+  --color-chart-5: var(--series-5);
+
+  /* Trend text (up = spent more, down = spent less) */
+  --color-trend-up: var(--trend-up);
+  --color-trend-down: var(--trend-down);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --shadow-soft: 0 6px 20px rgb(91 52 120 / 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+
+  --background: #fff8f1;
+  --foreground: #2b2140;
+  --card: #ffffff;
+  --card-foreground: #2b2140;
+  --popover: #ffffff;
+  --popover-foreground: #2b2140;
+  --primary: #2b2140;
+  --primary-foreground: #ffffff;
+  --secondary: #ffd6e8;
+  --secondary-foreground: #2b2140;
+  --muted: #f1e8ee;
+  --muted-foreground: #6b6280;
+  --accent: #d9488f;
+  --accent-foreground: #ffffff;
+  --destructive: #c8333f;
+  --border: #f1e8ee;
+  --input: #e8dce6;
+  --ring: #d9488f;
+  --radius: 1rem;
+
+  --tint-pink: #ffe0ee;
+  --tint-sky: #ddeeff;
+  --tint-peach: #ffe6d3;
+  --tint-lilac: #ece5ff;
+  --tint-mint: #d4f5e9;
+  --tint-butter: #fff2c7;
+  --tint-rose: #ffe3e0;
+  --tint-aqua: #d8f4f6;
+  --tint-gray: #efebf2;
+
+  --series-1: #d9488f;
+  --series-2: #2f8fd8;
+  --series-3: #e8783a;
+  --series-4: #7c5cd6;
+  --series-5: #17a385;
+  --series-6: #b8961c;
+  --series-other: #b3adbf;
+  --series-prev: #dcd5e6;
+
+  --trend-up: #b4235f;
+  --trend-down: #0e7a62;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
 }
