@@ -9,3 +9,20 @@
 node_modules/
 .next/
 .DS_Store
+
+# dependencies & build
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+*.pem
+npm-debug.log*
+
+# testing
+/test-results/
+/playwright-report/
+/playwright/.cache/
