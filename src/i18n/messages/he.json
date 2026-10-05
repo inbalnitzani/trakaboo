@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Trakaboo",
+    "tagline": "תציצי לאן הכסף הלך"
+  },
+  "nav": {
+    "overview": "סקירה",
+    "transactions": "עסקאות",
+    "import": "ייבוא",
+    "settings": "הגדרות"
+  },
+  "common": {
+    "language": "שפה",
+    "comingSoon": "בקרוב ✨"
+  }
+}
