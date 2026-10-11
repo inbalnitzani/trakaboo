@@ -22,11 +22,11 @@ test("month arrows move between months via the URL", async ({ page }) => {
   await expect(page.getByText("September 2026")).toBeVisible();
 });
 
-test("tapping a legend row highlights that category", async ({ page }) => {
+test("category tiles show where the money went", async ({ page }) => {
   await page.goto("/en?month=2026-09");
-  const food = page.getByRole("button", { name: /Food/ });
-  await food.click();
-  await expect(food).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("heading", { name: "Where it went" })).toBeVisible();
+  const tiles = page.getByRole("listitem").filter({ hasText: "Food" });
+  await expect(tiles.first()).toContainText("₪");
 });
 
 test("future months fall back to the current month", async ({ page }) => {

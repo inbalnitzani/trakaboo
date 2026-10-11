@@ -17,17 +17,17 @@ export function TransactionRow({ transaction }: TransactionRowProps) {
   const category = getCategory(transaction.categoryId);
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl px-1.5 py-2.5">
+    <div className="flex items-center gap-3 rounded-[1.375rem] border-2 bg-surface px-3.5 py-2.5">
       <CategoryIcon categoryId={category.id} />
       <div className="min-w-0 flex-1">
-        <p className="truncate font-semibold">{transaction.merchant}</p>
-        <p className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+        <p className="truncate font-medium">{transaction.merchant}</p>
+        <p className="mt-0.5 flex items-center gap-1.5 text-[0.8125rem] text-muted-foreground">
           <span>{t(category.id)}</span>
           <SourceBadge source={transaction.source} />
         </p>
       </div>
-      <span className="font-bold tabular-nums" dir="ltr">
-        {format.money(-transaction.amount, 2)}
+      <span className="font-display text-lg font-semibold tabular-nums">
+        {format.money(transaction.amount, 2)}
       </span>
     </div>
   );

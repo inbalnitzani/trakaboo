@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { niceStep } from "./bar-chart";
+import { BarChart, niceStep } from "./bar-chart";
 import { ComparisonBars } from "./comparison-bars";
 import { DonutChart } from "./donut-chart";
+import { ShareBar } from "./share-bar";
 
 const fmt = (v: number) => `₪${v}`;
 
@@ -65,5 +66,45 @@ describe("ComparisonBars", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
     expect(screen.getByText("▲ 20%")).toHaveClass("text-trend-up");
     expect(screen.getByText("This month")).toBeInTheDocument();
+  });
+});
+
+describe("BarChart", () => {
+  const bars = [10, 40, 20].map((value, i) => ({ id: String(i), value, tooltip: value }));
+
+  it("outlines the highlighted bar and draws the reference line", () => {
+    const { container } = render(
+      <BarChart bars={bars} xTicks={[]} highlightIndex={1} referenceValue={25} ariaLabel="Daily" />,
+    );
+    const rects = container.querySelectorAll("rect[fill]:not([fill='transparent'])");
+    expect(rects).toHaveLength(3);
+    expect(rects[1]).toHaveAttribute("stroke", "var(--foreground)");
+    expect(rects[0]).not.toHaveAttribute("stroke");
+    expect(screen.getByTestId("reference-line")).toBeInTheDocument();
+  });
+
+  it("skips the reference line when there is none", () => {
+    render(<BarChart bars={bars} xTicks={[]} ariaLabel="Daily" />);
+    expect(screen.queryByTestId("reference-line")).not.toBeInTheDocument();
+  });
+});
+
+describe("ShareBar", () => {
+  it("sizes segments by share and drops empty ones", () => {
+    const { container } = render(
+      <ShareBar
+        ariaLabel="By category"
+        segments={[
+          { id: "a", value: 75, color: "red" },
+          { id: "b", value: 25, color: "blue" },
+          { id: "c", value: 0, color: "green" },
+        ]}
+      />,
+    );
+    expect(screen.getByRole("img", { name: "By category" })).toBeInTheDocument();
+    const segments = container.querySelectorAll("[data-segment]");
+    expect(segments).toHaveLength(2);
+    expect(segments[0]).toHaveStyle({ flexGrow: "0.75" });
+    expect(segments[1]).toHaveStyle({ flexGrow: "0.25" });
   });
 });

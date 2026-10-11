@@ -1,29 +1,29 @@
 /**
  * Starter categories. Labels live in i18n messages under `categories.<id>`.
- * `chartSlot` is the fixed chart color (1–6, validated order); categories without
- * a slot are folded into "Other" in charts. Order here = display order in pickers.
+ * `chartSlot` is the fixed chart color (1-6), also used for the category's sticker dot;
+ * categories without a slot are folded into "Other" in charts and get the "other" color.
+ * `tint` is the soft background for its tiles and icons. Order here = display order in pickers.
  */
 export const CATEGORIES = [
-  { id: "food", emoji: "🍔", tint: "pink", chartSlot: 1 },
-  { id: "groceries", emoji: "🛒", tint: "sky", chartSlot: 2 },
-  { id: "transport", emoji: "🚗", tint: "peach", chartSlot: 3 },
-  { id: "shopping", emoji: "🛍️", tint: "lilac", chartSlot: 4 },
-  { id: "fun", emoji: "🎉", tint: "mint", chartSlot: 5 },
-  { id: "bills", emoji: "🏠", tint: "butter", chartSlot: 6 },
-  { id: "health", emoji: "💊", tint: "aqua", chartSlot: null },
-  { id: "travel", emoji: "✈️", tint: "sky", chartSlot: null },
-  { id: "subscriptions", emoji: "📱", tint: "lilac", chartSlot: null },
-  { id: "transfers", emoji: "💸", tint: "rose", chartSlot: null },
-  { id: "other", emoji: "❓", tint: "gray", chartSlot: null },
+  { id: "food", tint: "pink", chartSlot: 1 },
+  { id: "groceries", tint: "lilac", chartSlot: 2 },
+  { id: "transport", tint: "butter", chartSlot: 3 },
+  { id: "shopping", tint: "sky", chartSlot: 4 },
+  { id: "fun", tint: "lime", chartSlot: 5 },
+  { id: "bills", tint: "peach", chartSlot: 6 },
+  { id: "health", tint: "aqua", chartSlot: null },
+  { id: "travel", tint: "sky", chartSlot: null },
+  { id: "subscriptions", tint: "lilac", chartSlot: null },
+  { id: "transfers", tint: "rose", chartSlot: null },
+  { id: "other", tint: "gray", chartSlot: null },
 ] as const satisfies readonly CategoryDef[];
 
 export type Tint =
-  "pink" | "sky" | "peach" | "lilac" | "mint" | "butter" | "rose" | "aqua" | "gray";
+  "pink" | "lilac" | "sky" | "butter" | "lime" | "peach" | "rose" | "aqua" | "gray";
 export type ChartSlot = 1 | 2 | 3 | 4 | 5 | 6;
 
 type CategoryDef = {
   id: string;
-  emoji: string;
   tint: Tint;
   chartSlot: ChartSlot | null;
 };
@@ -50,11 +50,11 @@ export function getCategory(id: string): Category {
  */
 export const TINT_BG_CLASS: Record<Tint, string> = {
   pink: "bg-tint-pink",
-  sky: "bg-tint-sky",
-  peach: "bg-tint-peach",
   lilac: "bg-tint-lilac",
-  mint: "bg-tint-mint",
+  sky: "bg-tint-sky",
   butter: "bg-tint-butter",
+  lime: "bg-tint-lime",
+  peach: "bg-tint-peach",
   rose: "bg-tint-rose",
   aqua: "bg-tint-aqua",
   gray: "bg-tint-gray",
@@ -70,3 +70,8 @@ export const SERIES_COLOR: Record<ChartSlot | "other", string> = {
   6: "var(--series-6)",
   other: "var(--series-other)",
 };
+
+/** The chart / sticker-dot color for a category: its slot's series, or "other". */
+export function categoryColor(id: string): string {
+  return SERIES_COLOR[getCategory(id).chartSlot ?? "other"];
+}

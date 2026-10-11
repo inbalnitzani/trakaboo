@@ -9,8 +9,8 @@ type PageHeaderProps = {
 
 export function PageHeader({ title, actions, className }: PageHeaderProps) {
   return (
-    <div className={cn("mt-4 mb-3 flex items-center justify-between gap-3", className)}>
-      <h1 className="text-xl font-bold">{title}</h1>
+    <div className={cn("mt-3 mb-5 flex items-end justify-between gap-3", className)}>
+      <h1 className="font-display text-4xl leading-none font-bold tracking-tight">{title}</h1>
       {actions}
     </div>
   );

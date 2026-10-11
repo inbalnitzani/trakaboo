@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import en from "@/i18n/messages/en.json";
 import he from "@/i18n/messages/he.json";
 
-import { CATEGORIES, getCategory, isCategoryId } from "./categories";
+import { CATEGORIES, categoryColor, getCategory, isCategoryId } from "./categories";
 
 describe("categories", () => {
   it("have unique ids", () => {
@@ -27,5 +27,11 @@ describe("categories", () => {
     expect(isCategoryId("food")).toBe(true);
     expect(isCategoryId("nope")).toBe(false);
     expect(getCategory("nope").id).toBe("other");
+  });
+
+  it("color categories by their chart slot, or the shared other color", () => {
+    expect(categoryColor("food")).toBe("var(--series-1)");
+    expect(categoryColor("health")).toBe("var(--series-other)");
+    expect(categoryColor("nope")).toBe("var(--series-other)");
   });
 });

@@ -3,17 +3,21 @@
 @import "shadcn/tailwind.css";
 
 /*
- * Design tokens — the single source of truth for colors, radius and fonts.
+ * Design tokens: the single source of truth for colors, radius, shadows and fonts.
  * Components use Tailwind classes that map to these (e.g. bg-card, text-muted-foreground,
- * bg-tint-pink, fill-series-1). Never hard-code colors in components.
+ * bg-tint-pink, fill-series-1, shadow-pop, font-display). Never hard-code colors in components.
  * Light theme only (see DESIGN.md).
+ *
+ * Look: bubblegum pink with ink outlines. Depth comes from a 2px ink border plus a flat ink
+ * drop (shadow-pop), never from blurred shadows.
  */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -32,22 +36,31 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  /* Pastel tints — decorative backgrounds only (category cards, icons) */
+  /* Plain white for rows and inputs that sit on a card or the background */
+  --color-surface: var(--surface);
+  /* Secondary text that needs more weight than muted-foreground */
+  --color-soft-foreground: var(--soft-foreground);
+  /* Soft dashed dividers inside cards (outlines use border/ink) */
+  --color-divider: var(--divider);
+
+  /* Pop colors: stickers, highlights and the active nav pill */
+  --color-pop-lilac: var(--pop-lilac);
+  --color-pop-lime: var(--pop-lime);
+  --color-pop-peach: var(--pop-peach);
+  --color-pop-sky: var(--pop-sky);
+
+  /* Category tints: soft backgrounds for tiles and icons */
   --color-tint-pink: var(--tint-pink);
-  --color-tint-sky: var(--tint-sky);
-  --color-tint-peach: var(--tint-peach);
   --color-tint-lilac: var(--tint-lilac);
-  --color-tint-mint: var(--tint-mint);
+  --color-tint-sky: var(--tint-sky);
   --color-tint-butter: var(--tint-butter);
+  --color-tint-lime: var(--tint-lime);
+  --color-tint-peach: var(--tint-peach);
   --color-tint-rose: var(--tint-rose);
   --color-tint-aqua: var(--tint-aqua);
   --color-tint-gray: var(--tint-gray);
-  /* Readable text on a tint (badges) */
-  --color-on-tint-sky: var(--on-tint-sky);
-  --color-on-tint-rose: var(--on-tint-rose);
-  --color-on-tint-butter: var(--on-tint-butter);
 
-  /* Chart series — validated categorical order (adjacent CVD ΔE ≥ 11). Keep this order. */
+  /* Chart series, one per category slot. Order is fixed per category (see config/categories). */
   --color-series-1: var(--series-1);
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
@@ -74,56 +87,66 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  --shadow-soft: 0 6px 20px rgb(91 52 120 / 0.08);
+  /* Flat ink drops under outlined surfaces */
+  --shadow-pop-sm: 0 3px 0 var(--foreground);
+  --shadow-pop: 0 4px 0 var(--foreground);
+  --shadow-pop-lg: 0 6px 0 var(--foreground);
 }
 
 :root {
   color-scheme: light;
 
-  --background: #fff8f1;
-  --foreground: #2b2140;
-  --card: #ffffff;
-  --card-foreground: #2b2140;
-  --popover: #ffffff;
-  --popover-foreground: #2b2140;
-  --primary: #2b2140;
-  --primary-foreground: #ffffff;
-  --secondary: #ffd6e8;
-  --secondary-foreground: #2b2140;
-  --muted: #f1e8ee;
-  --muted-foreground: #6b6280;
-  --accent: #d9488f;
+  --background: #ffe4ee;
+  --foreground: #2a0f24;
+  --card: #fff8fb;
+  --card-foreground: #2a0f24;
+  --popover: #fff8fb;
+  --popover-foreground: #2a0f24;
+  --primary: #ff3d8b;
+  --primary-foreground: #2a0f24;
+  --secondary: #ffc2da;
+  --secondary-foreground: #2a0f24;
+  --muted: #f4eaf0;
+  --muted-foreground: #7d5f73;
+  --accent: #c2185b;
   --accent-foreground: #ffffff;
-  --destructive: #c8333f;
-  --border: #f1e8ee;
-  --input: #e8dce6;
-  --ring: #d9488f;
-  --radius: 1rem;
+  --destructive: #b3261e;
+  --border: #2a0f24;
+  --input: #2a0f24;
+  --ring: #ff3d8b;
+  --radius: 1.25rem;
 
-  --tint-pink: #ffe0ee;
-  --tint-sky: #ddeeff;
-  --tint-peach: #ffe6d3;
-  --tint-lilac: #ece5ff;
-  --tint-mint: #d4f5e9;
-  --tint-butter: #fff2c7;
-  --tint-rose: #ffe3e0;
-  --tint-aqua: #d8f4f6;
-  --tint-gray: #efebf2;
-  --on-tint-sky: #1e5e96;
-  --on-tint-rose: #a23a3a;
-  --on-tint-butter: #7a6210;
+  --surface: #ffffff;
+  --soft-foreground: #5c3b52;
+  --divider: #f3b9cf;
 
-  --series-1: #d9488f;
-  --series-2: #2f8fd8;
-  --series-3: #e8783a;
-  --series-4: #7c5cd6;
-  --series-5: #17a385;
-  --series-6: #b8961c;
-  --series-other: #b3adbf;
-  --series-prev: #dcd5e6;
+  --pop-lilac: #8b6cf0;
+  --pop-lime: #d4f26a;
+  --pop-peach: #ffd3c7;
+  --pop-sky: #4fa8e8;
 
-  --trend-up: #b4235f;
-  --trend-down: #0e7a62;
+  --tint-pink: #ffc2da;
+  --tint-lilac: #e3dbff;
+  --tint-sky: #d6eeff;
+  --tint-butter: #fff0b8;
+  --tint-lime: #eefac4;
+  --tint-peach: #ffd9cf;
+  --tint-rose: #ffd3c7;
+  --tint-aqua: #d3f3f0;
+  --tint-gray: #f4eaf0;
+
+  /* Not yet re-validated for color-vision deficiency after the pink redesign. */
+  --series-1: #ff3d8b;
+  --series-2: #8b6cf0;
+  --series-3: #ffb020;
+  --series-4: #4fa8e8;
+  --series-5: #9bcb2e;
+  --series-6: #e2553a;
+  --series-other: #cdb8c6;
+  --series-prev: #e3d3dd;
+
+  --trend-up: #a4471f;
+  --trend-down: #2b7a3d;
 }
 
 @layer base {

@@ -41,6 +41,7 @@ export default async function OverviewPage({ params, searchParams }: PageProps<"
       recent={recent}
       maxMonth={currentMonth}
       activeDays={month === currentMonth ? dayOfMonth(today) : daysInMonth(month)}
+      todayIndex={month === currentMonth ? dayOfMonth(today) - 1 : undefined}
       isDemo={isDemoMode()}
     />
   );

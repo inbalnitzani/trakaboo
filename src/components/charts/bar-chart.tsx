@@ -19,6 +19,11 @@ type BarChartProps = {
   /** Short y-axis label, e.g. 1000 → "1k". */
   formatAxis?: (value: number) => string;
   color?: string;
+  /** Bar drawn in `highlightColor` with an ink outline, e.g. today. */
+  highlightIndex?: number;
+  highlightColor?: string;
+  /** Draws a dashed reference line at this value, e.g. the daily average. */
+  referenceValue?: number;
   ariaLabel: string;
   height?: number;
   className?: string;
@@ -49,7 +54,10 @@ export function BarChart({
   bars,
   xTicks,
   formatAxis = compact,
-  color = "var(--series-4)",
+  color = "var(--pop-lilac)",
+  highlightIndex,
+  highlightColor = "var(--primary)",
+  referenceValue,
   ariaLabel,
   height = 150,
   className,
@@ -77,7 +85,7 @@ export function BarChart({
       >
         {grid.map((v) => (
           <g key={v}>
-            <line x1={PAD_LEFT} x2={W} y1={y(v)} y2={y(v)} className="stroke-border" />
+            <line x1={PAD_LEFT} x2={W} y1={y(v)} y2={y(v)} className="stroke-divider" />
             <text
               x={PAD_LEFT - 5}
               y={y(v) + 3}
@@ -88,6 +96,18 @@ export function BarChart({
             </text>
           </g>
         ))}
+        {referenceValue !== undefined && referenceValue > 0 && (
+          <line
+            data-testid="reference-line"
+            x1={PAD_LEFT}
+            x2={W}
+            y1={y(referenceValue)}
+            y2={y(referenceValue)}
+            className="stroke-foreground/55"
+            strokeWidth={1.5}
+            strokeDasharray="5 4"
+          />
+        )}
         {xTicks.map(({ index, label }) => (
           <text
             key={index}
@@ -100,16 +120,22 @@ export function BarChart({
           </text>
         ))}
         {bars.map((bar, i) => {
-          const x = PAD_LEFT + i * slot + 1;
-          const w = Math.max(slot - 2, 2);
+          const x = PAD_LEFT + i * slot + 1.5;
+          const w = Math.max(slot - 3, 2);
           const h = base - y(bar.value);
-          const r = Math.min(4, w / 2, h);
+          const highlighted = i === highlightIndex;
           return (
             <g key={bar.id}>
               {bar.value > 0 && (
-                <path
-                  d={`M${x},${base} V${base - h + r} Q${x},${base - h} ${x + r},${base - h} H${x + w - r} Q${x + w},${base - h} ${x + w},${base - h + r} V${base} Z`}
-                  fill={color}
+                <rect
+                  x={x}
+                  y={base - h}
+                  width={w}
+                  height={h}
+                  rx={Math.min(w / 2, h / 2)}
+                  fill={highlighted ? highlightColor : color}
+                  stroke={highlighted ? "var(--foreground)" : undefined}
+                  strokeWidth={highlighted ? 1.5 : undefined}
                   className={cn("transition-[filter]", active === i && "brightness-90")}
                 />
               )}
