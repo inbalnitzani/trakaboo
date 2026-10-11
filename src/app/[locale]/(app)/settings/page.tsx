@@ -23,7 +23,7 @@ export default async function SettingsPage({ params }: PageProps<"/[locale]/sett
 
       {!isDemoMode() && (
         <form action={signOut}>
-          <Button type="submit" variant="outline" size="lg" className="w-full rounded-2xl">
+          <Button type="submit" variant="outline" size="lg" className="w-full">
             <LogOutIcon />
             {t("auth.signOut")}
           </Button>

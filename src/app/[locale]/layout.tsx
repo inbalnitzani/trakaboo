@@ -1,6 +1,6 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Metadata, Viewport } from "next";
-import { Rubik } from "next/font/google";
+import { Fredoka, Rubik } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
@@ -17,8 +17,15 @@ const rubik = Rubik({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+// Chunky rounded display face for headings and amounts. Draws Hebrew too.
+const fredoka = Fredoka({
+  variable: "--font-display",
+  subsets: ["latin", "hebrew"],
+  weight: ["500", "600", "700"],
+});
+
 export const viewport: Viewport = {
-  themeColor: "#fff8f1",
+  themeColor: "#ffe4ee",
   viewportFit: "cover",
 };
 
@@ -38,7 +45,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const dir = getDirection(locale);
 
   return (
-    <html lang={locale} dir={dir} className={rubik.variable}>
+    <html lang={locale} dir={dir} className={`${rubik.variable} ${fredoka.variable}`}>
       <body>
         <NextIntlClientProvider>
           <DirectionProvider direction={dir}>

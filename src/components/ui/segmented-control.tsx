@@ -32,7 +32,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className={cn("inline-flex rounded-full bg-card p-1 shadow-soft", className)}
+      className={cn("inline-flex gap-1 rounded-full border-2 bg-surface p-1", className)}
     >
       {options.map((option) => {
         const selected = option.value === value;
@@ -46,9 +46,11 @@ export function SegmentedControl<T extends string>({
             disabled={disabled}
             onClick={() => onValueChange(option.value)}
             className={cn(
-              "rounded-full px-3 py-1.5 text-sm font-semibold transition-colors",
+              "min-h-9 rounded-full px-3.5 py-1.5 font-display text-sm transition-colors",
               "outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              selected ? "bg-secondary text-secondary-foreground" : "text-muted-foreground",
+              selected
+                ? "bg-primary font-semibold text-primary-foreground"
+                : "font-medium text-soft-foreground",
             )}
           >
             {option.label}

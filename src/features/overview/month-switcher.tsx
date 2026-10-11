@@ -15,7 +15,7 @@ type MonthSwitcherProps = {
 };
 
 const arrowClass =
-  "grid size-9 place-items-center rounded-full bg-card shadow-soft transition-opacity aria-disabled:pointer-events-none aria-disabled:opacity-35";
+  "grid size-10 place-items-center rounded-full transition-opacity outline-none focus-visible:ring-3 focus-visible:ring-ring/60 aria-disabled:pointer-events-none aria-disabled:opacity-30";
 
 /** ‹ September 2026 › — navigates months via the URL so every month is linkable. */
 export function MonthSwitcher({ month, maxMonth, pathname }: MonthSwitcherProps) {
@@ -30,15 +30,15 @@ export function MonthSwitcher({ month, maxMonth, pathname }: MonthSwitcherProps)
   const ForwardIcon = rtl ? ChevronLeftIcon : ChevronRightIcon;
 
   return (
-    <div className="my-2 flex items-center justify-center gap-4">
+    <div className="mx-auto flex w-fit items-center rounded-full border-2 bg-card">
       <Link
         href={{ pathname, query: { month: prev } }}
         aria-label={t("previousMonth")}
         className={arrowClass}
       >
-        <BackIcon className="size-4" />
+        <BackIcon className="size-[1.125rem]" strokeWidth={2.25} />
       </Link>
-      <span className="min-w-36 text-center font-semibold" aria-live="polite">
+      <span className="min-w-32 text-center font-display font-semibold" aria-live="polite">
         {format.month(month)}
       </span>
       <Link
@@ -48,7 +48,7 @@ export function MonthSwitcher({ month, maxMonth, pathname }: MonthSwitcherProps)
         tabIndex={atLatest ? -1 : undefined}
         className={arrowClass}
       >
-        <ForwardIcon className="size-4" />
+        <ForwardIcon className="size-[1.125rem]" strokeWidth={2.25} />
       </Link>
     </div>
   );

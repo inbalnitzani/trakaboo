@@ -6,17 +6,21 @@ type NoticeProps = {
   className?: string;
 };
 
-/** A soft inline banner for non-critical information. */
+/** A lime sticker-style banner for non-critical information. */
 export function Notice({ icon, children, className }: NoticeProps) {
   return (
     <div
       role="note"
       className={cn(
-        "flex items-center gap-2 rounded-2xl bg-tint-butter px-3 py-2 text-xs font-medium text-on-tint-butter",
+        "flex items-start gap-2.5 rounded-[1.375rem] border-2 bg-pop-lime px-4 py-3 text-sm text-foreground",
         className,
       )}
     >
-      {icon && <span aria-hidden>{icon}</span>}
+      {icon && (
+        <span aria-hidden className="font-display text-lg leading-5">
+          {icon}
+        </span>
+      )}
       <span>{children}</span>
     </div>
   );

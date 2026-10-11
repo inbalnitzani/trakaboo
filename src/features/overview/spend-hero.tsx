@@ -1,33 +1,49 @@
 import { useTranslations } from "next-intl";
 
+import { Sticker, type StickerTone } from "@/components/ui/sticker";
 import { useFormatters } from "@/i18n/use-formatters";
 
 type SpendHeroProps = {
   total: number;
   /** Percent change vs. last month; null hides the comparison. */
   changePct: number | null;
+  /** Average spend per elapsed day. */
+  perDay: number;
+  /** Number of purchases this month. */
+  count: number;
 };
 
-/** The big number at the top of the overview. */
-export function SpendHero({ total, changePct }: SpendHeroProps) {
+const TREND_TONE: Record<"up" | "down" | "same", StickerTone> = {
+  up: "peach",
+  down: "lime",
+  same: "milk",
+};
+
+/** The big number at the top of the overview, on a hot pink card with a trend sticker. */
+export function SpendHero({ total, changePct, perDay, count }: SpendHeroProps) {
   const t = useTranslations("overview");
   const format = useFormatters();
   const direction = changePct === null || changePct === 0 ? "same" : changePct > 0 ? "up" : "down";
 
   return (
-    <section className="relative overflow-hidden rounded-[1.75rem] bg-linear-135 from-tint-pink via-tint-lilac to-tint-mint px-5 py-6">
-      <span aria-hidden className="absolute -end-2 -top-1.5 rotate-12 text-6xl">
-        💸
-      </span>
-      <h2 className="font-medium text-muted-foreground">{t("spentThisMonth")}</h2>
-      <p className="mt-1 mb-3 text-[2.6rem] leading-none font-extrabold tracking-tight tabular-nums">
+    <section className="relative mt-3 rounded-[2rem] border-2 bg-primary px-5.5 pt-6 pb-5 text-primary-foreground shadow-pop-lg">
+      {changePct !== null && (
+        <Sticker tone={TREND_TONE[direction]} className="absolute end-4 -top-4.5">
+          {t("vsLastMonth", { direction, percent: Math.abs(changePct) })}
+        </Sticker>
+      )}
+      <h2 className="font-medium">{t("spentThisMonth")}</h2>
+      <p className="mt-1.5 font-display text-[4.25rem] leading-none font-bold tracking-[-0.035em] tabular-nums">
         {format.money(Math.round(total))}
       </p>
-      {changePct !== null && (
-        <p className="inline-flex rounded-full bg-white/75 px-3 py-1.5 text-sm font-semibold">
-          {t("vsLastMonth", { direction, percent: Math.abs(changePct) })}
-        </p>
-      )}
+      <div className="mt-4 flex flex-wrap gap-2 text-sm font-medium">
+        <span className="rounded-full border-2 bg-card px-3 py-1">
+          {t("avgPerDay", { amount: format.money(Math.round(perDay)) })}
+        </span>
+        <span className="rounded-full border-2 bg-card px-3 py-1">
+          {t("transactionsCount", { count })}
+        </span>
+      </div>
     </section>
   );
 }

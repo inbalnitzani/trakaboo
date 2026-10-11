@@ -1,4 +1,5 @@
-import { getCategory, TINT_BG_CLASS } from "@/config/categories";
+import { ColorDot } from "@/components/ui/color-dot";
+import { categoryColor, getCategory, TINT_BG_CLASS } from "@/config/categories";
 import { cn } from "@/lib/utils";
 
 type CategoryIconProps = {
@@ -8,24 +9,24 @@ type CategoryIconProps = {
 };
 
 const SIZE = {
-  sm: "size-9 rounded-xl text-lg",
-  md: "size-11 rounded-2xl text-xl",
+  sm: "size-9",
+  md: "size-11",
 } as const;
 
-/** The category's emoji on its pastel tint. */
+/** The category's color dot on its tint, in an outlined circle. */
 export function CategoryIcon({ categoryId, size = "md", className }: CategoryIconProps) {
   const category = getCategory(categoryId);
   return (
     <span
       aria-hidden
       className={cn(
-        "grid shrink-0 place-items-center",
+        "grid shrink-0 place-items-center rounded-full border-2",
         SIZE[size],
         TINT_BG_CLASS[category.tint],
         className,
       )}
     >
-      {category.emoji}
+      <ColorDot color={categoryColor(category.id)} size={size === "sm" ? "sm" : "md"} />
     </span>
   );
 }

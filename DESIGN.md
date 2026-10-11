@@ -15,21 +15,23 @@ _Peek at where your money went._ A personal expense tracker (PWA).
 
 ## Design
 
-|            |                                                                           |
-| ---------- | ------------------------------------------------------------------------- |
-| Language   | Hebrew + English toggle (full RTL/LTR flip)                               |
-| Style      | Colorful & playful — rounded cards, emoji per category                    |
-| Palette    | Candy pastels: pink, mint, lilac, peach on cream                          |
-| Theme      | Light only                                                                |
-| Home       | This month's overview: total, category cards, charts, recent transactions |
-| Charts     | Donut by category · Daily spending bars · This month vs. last month       |
-| Categories | ~10 editable starter categories with emojis                               |
-| Navigation | Bottom tab bar: Overview · Transactions · Import · Settings               |
-| Currency   | ₪ (ILS) default                                                           |
+|            |                                                                         |
+| ---------- | ----------------------------------------------------------------------- |
+| Language   | Hebrew + English toggle (full RTL/LTR flip)                             |
+| Style      | Y2K pop sticker look: ink outlines, flat drop shadows, tilted stickers  |
+| Palette    | Hot pink on blush, plum ink, lilac + lime pops, soft category tints     |
+| Theme      | Light only                                                              |
+| Home       | This month's overview: total, category bar + tiles, daily bars, recent  |
+| Charts     | Category share bar, daily bars (today + average), change vs. last month |
+| Categories | ~10 editable starter categories, each with a color dot and tint         |
+| Navigation | Bottom tab bar: Overview · Transactions · Import · Settings             |
+| Currency   | ₪ (ILS) default                                                         |
+
+Type: Fredoka (display, amounts) + Rubik (body), both with Hebrew. Tokens live in `src/app/globals.css`.
 
 ### Starter categories
 
-🍔 Food · 🛒 Groceries · 🚗 Transport · 🛍️ Shopping · 🏠 Bills · 💊 Health · 🎉 Fun · ✈️ Travel · 📱 Subscriptions · ❓ Other
+Food, Groceries, Transport, Shopping, Bills, Health, Fun, Travel, Subscriptions, Other
 
 Auto-categorization: rules by merchant name, learned from my corrections.
 

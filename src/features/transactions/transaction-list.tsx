@@ -8,7 +8,7 @@ type TransactionListProps = {
 
 export function TransactionList({ transactions }: TransactionListProps) {
   return (
-    <ul className="grid">
+    <ul className="grid gap-2.5">
       {transactions.map((transaction) => (
         <li key={transaction.id}>
           <TransactionRow transaction={transaction} />

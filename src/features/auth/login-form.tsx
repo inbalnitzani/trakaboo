@@ -22,7 +22,7 @@ export function LoginForm() {
 
   if (state.step === "email") {
     return (
-      <form action={send} className="grid gap-3">
+      <form action={send} className="grid gap-3.5">
         <Label htmlFor="email">{t("email")}</Label>
         <Input
           id="email"
@@ -32,7 +32,6 @@ export function LoginForm() {
           autoComplete="email"
           dir="ltr"
           required
-          className="h-12 rounded-2xl bg-card text-base"
           aria-invalid={!!state.error}
           aria-describedby={state.error ? "email-error" : undefined}
         />
@@ -41,7 +40,7 @@ export function LoginForm() {
             {t(`errors.${state.error}`)}
           </p>
         )}
-        <Button type="submit" size="lg" className="h-12 rounded-2xl" disabled={sending}>
+        <Button type="submit" size="lg" className="mt-1 w-full" disabled={sending}>
           {sending ? t("sending") : t("sendCode")}
         </Button>
       </form>
@@ -49,8 +48,10 @@ export function LoginForm() {
   }
 
   return (
-    <form action={verify} className="grid gap-3">
-      <p className="text-sm text-muted-foreground">{t("codeSent", { email: state.email })}</p>
+    <form action={verify} className="grid gap-3.5">
+      <p className="text-[0.9375rem] text-soft-foreground">
+        {t("codeSent", { email: state.email })}
+      </p>
       <input type="hidden" name="email" value={state.email} />
       <Label htmlFor="code">{t("code")}</Label>
       <Input
@@ -63,7 +64,7 @@ export function LoginForm() {
         dir="ltr"
         required
         autoFocus
-        className="h-14 rounded-2xl bg-card text-center text-2xl tracking-[0.5em]"
+        className="h-15 text-center font-display text-3xl font-bold tracking-[0.5em]"
         aria-invalid={!!state.error}
         aria-describedby={state.error ? "code-error" : undefined}
       />
@@ -72,7 +73,7 @@ export function LoginForm() {
           {t(`errors.${state.error}`)}
         </p>
       )}
-      <Button type="submit" size="lg" className="h-12 rounded-2xl" disabled={verifying}>
+      <Button type="submit" size="lg" className="mt-1 w-full" disabled={verifying}>
         {verifying ? t("verifying") : t("signIn")}
       </Button>
     </form>

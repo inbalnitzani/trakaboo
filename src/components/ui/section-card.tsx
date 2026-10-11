@@ -2,19 +2,32 @@ import { cn } from "@/lib/utils";
 
 type SectionCardProps = {
   title: string;
-  /** Secondary text aligned to the end of the header. */
+  /** Secondary text or a link aligned to the end of the header. */
   aside?: React.ReactNode;
+  /** "card" draws an outlined milk card; "plain" is just the header and content on the page. */
+  variant?: "card" | "plain";
   children: React.ReactNode;
   className?: string;
 };
 
-/** White rounded card with a small header — the building block of dashboard sections. */
-export function SectionCard({ title, aside, children, className }: SectionCardProps) {
+/** A titled section, the building block of dashboard screens. */
+export function SectionCard({
+  title,
+  aside,
+  variant = "card",
+  children,
+  className,
+}: SectionCardProps) {
   return (
-    <section className={cn("rounded-3xl bg-card p-4 shadow-soft", className)}>
-      <header className="mb-3 flex items-baseline justify-between gap-2">
-        <h2 className="font-semibold">{title}</h2>
-        {aside && <span className="text-sm text-muted-foreground">{aside}</span>}
+    <section
+      className={cn(
+        variant === "card" && "rounded-[1.75rem] border-2 bg-card p-5 text-card-foreground",
+        className,
+      )}
+    >
+      <header className="mb-3.5 flex items-baseline justify-between gap-2">
+        <h2 className="font-display text-xl font-semibold">{title}</h2>
+        {aside && <span className="text-sm text-soft-foreground">{aside}</span>}
       </header>
       {children}
     </section>

@@ -11,8 +11,8 @@
   },
   "common": {
     "language": "Language",
-    "comingSoon": "Coming soon ✨",
-    "demoMode": "Sample data — connect a database to see your own spending"
+    "comingSoon": "Coming soon",
+    "demoMode": "Sample data. Connect a database to see your own spending"
   },
   "categories": {
     "food": "Food",
@@ -33,7 +33,7 @@
     "byCategory": "By category",
     "categoriesCount": "{count, plural, one {# category} other {# categories}}",
     "daily": "Daily spending",
-    "avgPerDay": "avg {amount} / day",
+    "avgPerDay": "About {amount} a day",
     "dailyTooltip": "{count, plural, one {# purchase} other {# purchases}}",
     "comparison": "vs. last month",
     "thisMonth": "This month",
@@ -44,7 +44,12 @@
     "emptyTitle": "No spending yet this month",
     "emptyDescription": "Add an expense or import a statement to get started",
     "previousMonth": "Previous month",
-    "nextMonth": "Next month"
+    "nextMonth": "Next month",
+    "whereItWent": "Where it went",
+    "transactionsCount": "{count, plural, one {# purchase} other {# purchases}}",
+    "same": "same",
+    "today": "Today",
+    "average": "Average"
   },
   "sources": {
     "apple_pay": "Apple Pay",
