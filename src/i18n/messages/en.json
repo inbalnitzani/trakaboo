@@ -12,7 +12,8 @@
   "common": {
     "language": "Language",
     "comingSoon": "Coming soon",
-    "demoMode": "Sample data. Connect a database to see your own spending"
+    "demoMode": "Sample data. Connect a database to see your own spending",
+    "addExpense": "Add expense"
   },
   "categories": {
     "food": "Food",
@@ -71,6 +72,28 @@
       "sendFailed": "Couldn't send the code. Try again in a minute",
       "invalidCode": "The code should be 6 digits",
       "wrongCode": "Wrong or expired code"
+    }
+  },
+  "addTransaction": {
+    "title": "Add expense",
+    "amount": "Amount",
+    "merchant": "Where",
+    "merchantPlaceholder": "e.g. Aroma, Shufersal",
+    "date": "Date",
+    "category": "Category",
+    "note": "Note",
+    "optional": "(optional)",
+    "save": "Save expense",
+    "saving": "Saving…",
+    "errors": {
+      "required": "This field is required",
+      "invalidAmount": "Enter an amount greater than 0",
+      "tooLarge": "That amount looks too big",
+      "tooLong": "That's too long",
+      "invalidDate": "That date doesn't look right",
+      "futureDate": "The date can't be in the future",
+      "invalidCategory": "Pick a category",
+      "saveFailed": "Couldn't save the expense. Try again"
     }
   }
 }

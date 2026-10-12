@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 
+import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { Notice } from "@/components/ui/notice";
@@ -60,6 +61,11 @@ export function OverviewScreen({
           icon={<LogoMark size="lg" />}
           title={t("emptyTitle")}
           description={t("emptyDescription")}
+          action={
+            <Link href="/add" className={buttonVariants()}>
+              {tc("addExpense")}
+            </Link>
+          }
         />
       ) : (
         <>
