@@ -19,13 +19,14 @@ export function isDemoMode(): boolean {
 }
 
 // One demo store per server process, so manual changes survive navigation in dev.
-let demoRepository: TransactionsRepository | undefined;
+// Kept on globalThis because route handlers and pages are separate server bundles.
+const demo = globalThis as { trakabooDemoRepository?: TransactionsRepository };
 
 /** The repository for the current request. Features import this, never a concrete store. */
 export const getTransactionsRepository = cache(async (): Promise<TransactionsRepository> => {
   if (isDemoMode()) {
-    demoRepository ??= createInMemoryRepository(generateDemoTransactions(todayIso()));
-    return demoRepository;
+    demo.trakabooDemoRepository ??= createInMemoryRepository(generateDemoTransactions(todayIso()));
+    return demo.trakabooDemoRepository;
   }
   return createSupabaseRepository(await createSupabaseServerClient());
 });

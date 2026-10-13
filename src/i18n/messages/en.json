@@ -95,5 +95,27 @@
       "invalidCategory": "Pick a category",
       "saveFailed": "Couldn't save the expense. Try again"
     }
+  },
+  "applePay": {
+    "title": "Apple Pay",
+    "description": "Log tap payments automatically with an iPhone Shortcut. It sends each payment to Trakaboo the moment you pay.",
+    "endpoint": "Endpoint",
+    "token": "Token",
+    "noToken": "No token yet. Create one to connect the Shortcut.",
+    "tokenSince": "Connected with a token created {date}. For safety, it isn't shown again.",
+    "createToken": "Create token",
+    "replaceToken": "Replace token",
+    "creating": "Creating…",
+    "replaceWarning": "Replacing stops the old token right away, so the Shortcut needs the new one.",
+    "copyNow": "Copy the token now. It won't be shown again.",
+    "failed": "Couldn't create a token. Try again",
+    "copy": "Copy {label}",
+    "copied": "Copied",
+    "steps": {
+      "step1": "In the Shortcuts app, go to Automation → New → Transaction, pick your cards, and set it to run immediately.",
+      "step2": "Add a “Get Contents of URL” action: the endpoint above, method POST, header Authorization = Bearer + a space + your token.",
+      "step3": "Request body JSON: amount = Amount, merchant = Merchant, card = Card, time = Current Date (ISO 8601).",
+      "step4": "Pay with Apple Pay once. The payment shows up in your overview."
+    }
   }
 }
