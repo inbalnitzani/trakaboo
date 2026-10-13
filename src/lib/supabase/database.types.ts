@@ -37,9 +37,28 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["transactions"]["Insert"]>;
         Relationships: [];
       };
+      ingest_tokens: {
+        Row: { user_id: string; token_hash: string; created_at: string };
+        Insert: { user_id?: string; token_hash: string; created_at?: string };
+        Update: Partial<Database["public"]["Tables"]["ingest_tokens"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<never, never>;
-    Functions: Record<never, never>;
+    Functions: {
+      ingest_transaction: {
+        Args: {
+          p_token: string;
+          p_date: string;
+          p_amount: number;
+          p_currency: string;
+          p_merchant: string;
+          p_card_last4: string | null;
+          p_external_ref: string;
+        };
+        Returns: "created" | "duplicate";
+      };
+    };
     Enums: Record<never, never>;
     CompositeTypes: Record<never, never>;
   };
