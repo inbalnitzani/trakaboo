@@ -16,11 +16,12 @@ export function fromRow(row: TransactionRow): Transaction {
     source: row.source,
     cardLast4: row.card_last4,
     note: row.note,
+    externalRef: row.external_ref,
   };
 }
 
 /** Domain model → insert payload. `user_id` is filled in by the database (auth.uid()). */
-export function toInsert(input: NewTransaction, externalRef?: string): TransactionInsert {
+export function toInsert(input: NewTransaction): TransactionInsert {
   return {
     date: input.date,
     amount: input.amount,
@@ -30,6 +31,6 @@ export function toInsert(input: NewTransaction, externalRef?: string): Transacti
     source: input.source,
     card_last4: input.cardLast4 ?? null,
     note: input.note ?? null,
-    external_ref: externalRef ?? null,
+    external_ref: input.externalRef ?? null,
   };
 }

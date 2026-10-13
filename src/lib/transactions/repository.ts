@@ -11,6 +11,11 @@ export interface TransactionsRepository {
   /** Transactions with `from <= date <= to`, newest first. */
   listBetween(range: { from: IsoDate; to: IsoDate }): Promise<Transaction[]>;
   create(input: NewTransaction): Promise<Transaction>;
+  /**
+   * Saves many at once, skipping any whose `source` + `externalRef` is already saved
+   * (so re-importing a statement is harmless). Returns how many were saved.
+   */
+  createMany(inputs: readonly NewTransaction[]): Promise<number>;
   updateCategory(id: string, categoryId: CategoryId): Promise<void>;
   remove(id: string): Promise<void>;
 }
@@ -24,6 +29,8 @@ export function createInMemoryRepository(
   makeId: () => string = () => crypto.randomUUID(),
 ): TransactionsRepository {
   const rows = new Map(seed.map((t) => [t.id, { ...t }]));
+  const refKey = (t: NewTransaction) => (t.externalRef ? `${t.source}|${t.externalRef}` : null);
+  const hasRef = (key: string) => [...rows.values()].some((t) => refKey(t) === key);
 
   return {
     async listBetween({ from, to }) {
@@ -36,6 +43,17 @@ export function createInMemoryRepository(
       const row: Transaction = { ...input, id: makeId() };
       rows.set(row.id, row);
       return { ...row };
+    },
+    async createMany(inputs) {
+      let saved = 0;
+      for (const input of inputs) {
+        const key = refKey(input);
+        if (key && hasRef(key)) continue;
+        const row: Transaction = { ...input, id: makeId() };
+        rows.set(row.id, row);
+        saved++;
+      }
+      return saved;
     },
     async updateCategory(id, categoryId) {
       const row = rows.get(id);

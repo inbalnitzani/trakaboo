@@ -35,6 +35,18 @@ export function createSupabaseRepository(db: SupabaseClient<Database>): Transact
       return fromRow(data);
     },
 
+    async createMany(inputs) {
+      if (inputs.length === 0) return 0;
+      const { data, error } = await table()
+        .upsert(inputs.map(toInsert), {
+          onConflict: "user_id,source,external_ref",
+          ignoreDuplicates: true,
+        })
+        .select("id");
+      if (error) throw error;
+      return data.length;
+    },
+
     async updateCategory(id, categoryId) {
       const { error } = await table().update({ category_id: categoryId }).eq("id", id);
       if (error) throw error;

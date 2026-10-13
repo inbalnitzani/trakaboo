@@ -48,6 +48,16 @@ describe("in-memory repository", () => {
     expect(again.merchant).toBe("McDonald's");
   });
 
+  it("createMany skips rows already saved from the same source", async () => {
+    const repo = createInMemoryRepository([], () => crypto.randomUUID());
+    const a = { ...base, source: "cal" as const, externalRef: "r1" };
+    const b = { ...base, source: "cal" as const, externalRef: "r2" };
+    expect(await repo.createMany([a, b])).toBe(2);
+    expect(await repo.createMany([a, { ...a, source: "max" as const }, { ...base }])).toBe(2);
+    const rows = await repo.listBetween({ from: "2026-09-01", to: "2026-09-30" });
+    expect(rows).toHaveLength(4);
+  });
+
   it("rejects updates to unknown ids", async () => {
     await expect(createInMemoryRepository().updateCategory("x", "fun")).rejects.toThrow();
   });

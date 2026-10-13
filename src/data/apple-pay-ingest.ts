@@ -15,7 +15,6 @@ export type IngestApplePay = (token: string, payment: ApplePayPayment) => Promis
 
 /** In demo mode the Shortcut can use this fixed token to try the flow end to end. */
 export const DEMO_INGEST_TOKEN = "demo";
-const demoRefs = new Set<string>();
 
 /**
  * Saves an Apple Pay payment for the owner of `token`. There's no session here, so this
@@ -24,19 +23,20 @@ const demoRefs = new Set<string>();
 export const ingestApplePay: IngestApplePay = async (token, payment) => {
   if (isDemoMode()) {
     if (token !== DEMO_INGEST_TOKEN) return "unauthorized";
-    if (demoRefs.has(payment.externalRef)) return "duplicate";
-    demoRefs.add(payment.externalRef);
     const repository = await getTransactionsRepository();
-    await repository.create({
-      date: payment.date,
-      amount: payment.amount,
-      currency: payment.currency,
-      merchant: payment.merchant,
-      categoryId: "other",
-      source: "apple_pay",
-      cardLast4: payment.cardLast4,
-    });
-    return "created";
+    const saved = await repository.createMany([
+      {
+        date: payment.date,
+        amount: payment.amount,
+        currency: payment.currency,
+        merchant: payment.merchant,
+        categoryId: "other",
+        source: "apple_pay",
+        cardLast4: payment.cardLast4,
+        externalRef: payment.externalRef,
+      },
+    ]);
+    return saved ? "created" : "duplicate";
   }
 
   const { url, publishableKey } = requireSupabaseEnv();

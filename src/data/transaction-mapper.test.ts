@@ -32,6 +32,7 @@ describe("fromRow", () => {
       source: "apple_pay",
       cardLast4: "1234",
       note: null,
+      externalRef: null,
     });
   });
 
@@ -42,17 +43,15 @@ describe("fromRow", () => {
 
 describe("toInsert", () => {
   it("maps to columns, trims the merchant, and never sends user_id", () => {
-    const insert = toInsert(
-      {
-        date: "2026-09-14",
-        amount: 12,
-        currency: "ILS",
-        merchant: "  Wolt ",
-        categoryId: "food",
-        source: "manual",
-      },
-      "ref-1",
-    );
+    const insert = toInsert({
+      date: "2026-09-14",
+      amount: 12,
+      currency: "ILS",
+      merchant: "  Wolt ",
+      categoryId: "food",
+      source: "manual",
+      externalRef: "ref-1",
+    });
     expect(insert).toEqual({
       date: "2026-09-14",
       amount: 12,
