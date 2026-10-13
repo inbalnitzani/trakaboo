@@ -19,6 +19,8 @@ export type Transaction = {
   /** Last 4 digits of the card, when known. */
   cardLast4?: string | null;
   note?: string | null;
+  /** Stable id from an import or the Apple Pay Shortcut; unique per source. */
+  externalRef?: string | null;
 };
 
 export type NewTransaction = Omit<Transaction, "id">;

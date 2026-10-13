@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   dayOfMonth,
+  daysBetween,
   daysInMonth,
   formatDate,
   formatMonth,
@@ -37,6 +39,18 @@ describe("month keys", () => {
 
   it("returns an inclusive month range", () => {
     expect(monthRange("2026-02")).toEqual({ from: "2026-02-01", to: "2026-02-28" });
+  });
+});
+
+describe("day arithmetic", () => {
+  it("adds days across months and years", () => {
+    expect(addDays("2026-03-01", -1)).toBe("2026-02-28");
+    expect(addDays("2026-12-31", 1)).toBe("2027-01-01");
+  });
+
+  it("counts days between dates", () => {
+    expect(daysBetween("2026-09-28", "2026-10-02")).toBe(4);
+    expect(daysBetween("2026-10-02", "2026-09-28")).toBe(-4);
   });
 });
 

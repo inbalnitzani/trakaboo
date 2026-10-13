@@ -60,6 +60,21 @@ export function isInMonth(date: IsoDate, month: MonthKey): boolean {
   return toMonthKey(date) === month;
 }
 
+const dayNumber = (date: IsoDate) => {
+  const [y, m, d] = date.split("-").map(Number);
+  return Date.UTC(y, m - 1, d) / 86_400_000;
+};
+
+/** Moves a date by `delta` days: addDays("2026-03-01", -1) → "2026-02-28" */
+export function addDays(date: IsoDate, delta: number): IsoDate {
+  return new Date((dayNumber(date) + delta) * 86_400_000).toISOString().slice(0, 10) as IsoDate;
+}
+
+/** Whole days from `a` to `b` (negative if `b` is earlier). */
+export function daysBetween(a: IsoDate, b: IsoDate): number {
+  return dayNumber(b) - dayNumber(a);
+}
+
 /** Today's date in the given IANA time zone (defaults to Israel). */
 export function todayIso(timeZone = "Asia/Jerusalem", now = new Date()): IsoDate {
   // en-CA formats as YYYY-MM-DD.

@@ -117,5 +117,30 @@
       "step3": "Request body JSON: amount = Amount, merchant = Merchant, card = Card, time = Current Date (ISO 8601).",
       "step4": "Pay with Apple Pay once. The payment shows up in your overview."
     }
+  },
+  "import": {
+    "calTitle": "Cal statement",
+    "calHint": "In the Cal app or website, export a monthly statement as Excel (.xlsx) and choose it here. The file is read on this device and never uploaded.",
+    "chooseFile": "Choose .xlsx file",
+    "reading": "Reading…",
+    "summary": "{count, plural, one {1 transaction} other {# transactions}}{card, select, other { · card {card}} none {}}",
+    "totalMismatch": "The statement says {total}, but the rows add up to {sum}. Some rows may be missing, so check before importing.",
+    "status": {
+      "alreadyImported": "Already imported",
+      "applePay": "Probably already logged with Apple Pay:"
+    },
+    "importButton": "{count, plural, =0 {Nothing selected} one {Import 1 transaction} other {Import # transactions}}",
+    "importing": "Importing…",
+    "cancel": "Choose a different file",
+    "done": "{count, plural, =0 {Nothing new to import} one {Imported 1 transaction} other {Imported # transactions}}",
+    "seeOverview": "See overview",
+    "importAnother": "Import another statement",
+    "errors": {
+      "notAStatement": "This doesn't look like a Cal statement. Export it again as Excel from Cal",
+      "noTransactions": "No transactions found in this statement",
+      "unreadable": "Couldn't open the file. Make sure it's an .xlsx file",
+      "invalid": "Some rows couldn't be read. Try exporting the statement again",
+      "failed": "Something went wrong. Try again"
+    }
   }
 }
