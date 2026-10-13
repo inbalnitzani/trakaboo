@@ -51,3 +51,17 @@ e2e/                   Playwright specs for key user flows
 - Conventional commits (`feat:`, `fix:`, `chore:`, `test:`, `docs:`).
 - `npm run check` (typecheck, lint, format, unit tests) must pass; the pre-commit hook runs it on staged files.
 - `npm run test:e2e` before merging UI changes (uses installed Google Chrome locally — Playwright's Chromium doesn't support macOS 13).
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for inbalnitzani/trakaboo, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root, created lazily. See `docs/agents/domain.md`.
